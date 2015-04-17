@@ -29,7 +29,7 @@ int main()
 	
 		for(i=0;i<n-j;++i)
 		{
-			if(v[i]>v[i+1])    //相鄰兩兩比較 
+			if(v[i]<v[i+1])    //相鄰兩兩比較 
 			{
 				hold = v[i];
 				v[i] = v[i+1];
