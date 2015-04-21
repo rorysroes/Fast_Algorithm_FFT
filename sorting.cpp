@@ -61,7 +61,7 @@ void quick_sort(int *s,int left,int right)
     //quick_sort(s, a + 1, right);
 }
 
-//還不太會在函數裡再執行函數 
+//還不太會在函數裡再執行函數 ,只有做到用第一次的pivot分兩邊 
 
 
 
