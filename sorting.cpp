@@ -15,7 +15,6 @@ int main(){
 	}
 
 	quick_sort(s,0,num-1);
-	system("pause");
 	printf("\n");
 	
 	for ( i = 0; i < num; i++){
