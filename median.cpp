@@ -16,10 +16,6 @@ int main(){
 	printf("\n");
 	quick_sort(s,0,num-1);
 
-	for ( i = 0; i < num; i++){
-	printf("%d\t",s[i]);
-	}
-	printf("\n");
 
 }
 //快速找中位數法(median) 
@@ -43,19 +39,19 @@ void quick_sort(int s[10],int left,int right)
 				}
 				printf("\n");
             }
+            
       		if(a>4){
 	            quick_sort(s, left , a-1);
 	            
 		    }else if(a<4){
 		        quick_sort(s, a+1, right);	
 		    }else if(a=4){
-		    	printf("median = %d\n",s[a]);
+		    	printf("median_1 = %d\n",s[a]);         //排序途中剛好pivot已經在中間位置,那它就是中位數 
 			}
-			if(5-a>0){
-				printf("median = %d",s[5-a]);
-			}else if(5-a<0){
-				printf("median = %d",s[])
-			} 			        
+			
+	   }else if(left = right){
+	   	    printf("median_2 = %d",s[4]);                  
+	   	    printf("\n");
 	   }
 
 }
