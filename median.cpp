@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "time.h"
 #include <stdlib.h>
-void quick_sort(int s[10],int left,int right);
+void quick_median(int s[10],int left,int right);
 
 int main(){
 	int s[10]={-1},i,num = 9,a;
@@ -14,14 +14,14 @@ int main(){
 	printf("%d\t",s[i]);
 	}
 	printf("\n");
-	quick_sort(s,0,num-1);
+	quick_median(s,0,num-1);
 
 
 }
 //快速找中位數法(median) 
 //第一次pivot排完之後,比對pivot與中位數位置的差距,從這差距去尋找中位數 
 
-void quick_sort(int s[10],int left,int right)
+void quick_median(int s[10],int left,int right)
 { 
 	  if(right>left){
 		    int i,b,a = left-1;
@@ -41,10 +41,10 @@ void quick_sort(int s[10],int left,int right)
             }
             
       		if(a>4){
-	            quick_sort(s, left , a-1);
+	            quick_median(s, left , a-1);
 	            
 		    }else if(a<4){
-		        quick_sort(s, a+1, right);	
+		        quick_median(s, a+1, right);	
 		    }else if(a=4){
 		    	printf("median_1 = %d\n",s[a]);         //排序途中剛好pivot已經在中間位置,那它就是中位數 
 			}
