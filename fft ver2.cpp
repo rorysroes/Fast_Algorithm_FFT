@@ -8,12 +8,13 @@ int main()
 {
 	// y_k = sum(x_n * w^{-kn}, n=0..N-1)
 	// w = cos(2*pi/N)+isin(2*pi/N)
-	int k ,n ,N;
+	int k ,n ,N,p;
 	double *y_r, *y_i, *x_r, *x_i, w_r, w_i;
 	clock_t t1,t2;
 	//input N
-	printf("Please input N=");
-	scanf("%d", &N);                            //找一個整數放到N這個記憶體位置 
+	printf("Please input p=");
+	scanf("%d", &p);                             
+	N = 1 << p;                     //移位算子 2^p ,左移 p 個位置(ex:p=4 => 1= 0001 => 1000 = 16)  
 	printf("N=%d\n",N);
 	//create memory for x and y
 	x_r = (double * ) malloc(N*sizeof(double));
@@ -112,6 +113,11 @@ int FFT(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 		y_i[k+N/2] = even_FT_i[k] - (w_r*odd_FT_i[k] + w_i*odd_FT_r[k]); 
 	    
 	}
+	//把記憶體還作業系統 
+	free(even_r);
+	free(even_i);
+	free(even_FT_r);
+	free(even_FT_i);
 	/*
 	for(k=N/2;k<N-1;++k)
 	{
