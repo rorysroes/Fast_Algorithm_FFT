@@ -9,12 +9,16 @@ int Initial(double *x, double *y, int N);
 int Print_Complex_Vector(double *x, double *y, int N);
 int Bit_Increase(int *D,int b, int N);
 int Bit_Reserve(int *D, int b, int N);
+int Bit_Reserve_Integer(int N);
 
 int main()
 {
+	Bit_Reserve_Integer(8);
+	/*
 	int D[4];
 	Bit_Increase(D, 2, 4);
 	Bit_Reserve(D, 2, 4);
+	*/
 	// y_k = sum(x_n * w^{-kn}, n=0..N-1)
 	// w = cos(2*pi/N)+isin(2*pi/N)
 	int k ,n ,N, p, q, r;
@@ -212,20 +216,53 @@ int Bit_Reserve(int *D, int b, int N)
 	{
 		for(i=N-1;i>=0;i--) printf("%d", D[i]);
 		printf("\n");
-		D[N-1] = D[N-1] + 1;
+
 		//check every bit , if D[i] = b => D[i] = 0 , D[i+1]+1       2000 => 0100
 	    i = N-1;
-	    while(D[i]==b & i > 0)
+	    while(D[i]==b-1 & i > 0)
 	    {
 	    	D[i] = 0;
 	    	i = i - 1;
-	    	D[i] = D[i] + 1; 
+	    	//D[i] = D[i] + 1; 
 		}
+		D[i] = D[i] + 1;
 		system("pause");
     }
     return 0;
 }
+int Bit_Reserve_Integer(int N)
+{
+	
+	//      N = 8       
+	//      D[2] D[1] D[0] 
+	//x print 000  100  010  110  001  101 ...
+	//  print  0    4    2    6    1    5
+	
+	int i=0, j=0, M ;
+	
+	while(i< N)
+	{
+		printf("%d <-> %d", i, j);
 
+		//check every bit , if D[i] = b => D[i] = 0 , D[i+1]+1       2000 => 0100
+	    //i = N-1;
+	    M = N/2 ;
+	    // while(D[i]==b-1 & i>0)
+	    while( j >= M & M > 0)
+	    {
+	    	//D[i] = 0;
+	    	j = j - M ;
+	    	//i = i - 1; 
+	        M = M / 2 ;  
+		}
+		//D[i] = D[i] + 1; 
+		j = j + M ;
+		i = i + 1 ;
+	
+		system("pause");
+    }
+    return 0;
+}
 
 
 
