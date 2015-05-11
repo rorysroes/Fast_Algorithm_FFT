@@ -10,12 +10,15 @@ int Print_Complex_Vector(double *x, double *y, int N);
 int Bit_Increase(int *D,int b, int N);
 int Bit_Reserve(int *D, int b, int N);
 int Bit_Reserve_Integer(int N);
+int FFTver3(double *x_r, double *x_i, double *y_r, double *y_i, int N);
+int Group(int N);
 
 int main()
 {
 	int D[4];
 	//Bit_Reserve(D, 5, 4);
-	Bit_Reserve_Integer(125);
+	//Bit_Reserve_Integer(125);
+	Group(8);
 	/*
 	Bit_Increase(D, 2, 4);
 	Bit_Reserve(D, 2, 4);                               // 2 ¶i¦ì 
@@ -304,6 +307,87 @@ int Bit_Reserve_Integer(int N)
     */
     return 0;
 }
+
+int FFTver3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+{
+
+	// input : x = x_r + i * x_i
+	// output : y = y_r + i * y_i
+	int n;
+	for(n=0;n<N;++n)
+	{
+		y_r[n] = x_r[n];
+		y_i[n] = x_r[n];
+	}
+	
+	int i=0, j=0, M ;
+	double t_r, t_i;
+	while(i < N)
+	{
+		if(i < j)
+		{
+			//swap y[i], y[j]
+			t_r = y_r[i];
+			t_i = y_i[i];
+			y_r[i] = y_r[j];
+			y_i[i] = y_i[j];
+			y_r[j] = t_r;
+			y_i[j] = t_i;
+		}
+	    M = N/2 ;        
+	    while( j >= M & M > 0)
+	    {
+	    	j = j - M ;
+	        M = M / 2 ;  
+		}	
+		j = j + M ;
+		i = i + 1 ;
+    }
+
+	return 0;
+}
+
+int Group(int N)
+{
+	// N = 8
+	// ((0,1) (2,3)   (4,5) (6,7))                 Big Group number = 1
+	// ((0,2) (4,6))   (1,3) (5,7))                Big Group number = 2
+	// ((0,4)) ((1,5)) ((2,6)) ((3,7))             Big Group number = 4
+	
+    int n = 1, i, j;
+	while(n < N)
+	{
+		printf("n=%d\n", n);
+		for(i=0;i<n;++i)
+		{
+			printf("%d:", i); 
+			// 0
+			// 0 1
+			// 0 1 2
+			// 0 1 2 3
+			for(j=i;j<N;j=j+2*n)
+			{
+				//(0, )(2, )(4, )(6, )
+				//(0, (4,
+			     printf("(%d %d)\n",j,j+n);
+		    } 
+		}
+		n = n * 2;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
