@@ -18,7 +18,7 @@ int main()
 	int D[4];
 	//Bit_Reserve(D, 5, 4);
 	//Bit_Reserve_Integer(125);
-	Group(8);
+	//Group(8);
 	/*
 	Bit_Increase(D, 2, 4);
 	Bit_Reserve(D, 2, 4);                               // 2 ¶i¦ì 
@@ -40,14 +40,14 @@ int main()
 	x_i = (double * ) malloc(N*sizeof(double));
 	y_r = (double * ) malloc(N*sizeof(double));
 	y_i = (double * ) malloc(N*sizeof(double));
-	
+	/*
     Initial(x_r, x_i, N);
 	t1 = clock();
     SFT(x_r, x_i, y_r, y_i, N);
 	t2 = clock();
 	printf("%f secs\n",1.0*(t2 -t1)/CLOCKS_PER_SEC);
 	//Print_Complex_Vector(y_r,y_i, N);
-	
+	*/
 	Initial(x_r, x_i, N);
 	t1 = clock();
 	FFT(x_r, x_i, y_r, y_i, N);
@@ -55,6 +55,11 @@ int main()
     printf("%f secs\n",1.0*(t2 -t1)/CLOCKS_PER_SEC);
     //Print_Complex_Vector(y_r,y_i, N);
     
+    Initial(x_r, x_i, N);
+	t1 = clock();
+    FFTver3(x_r, x_i, y_r, y_i, N);
+    t2 = clock();
+    printf("%f secs\n",1.0*(t2 -t1)/CLOCKS_PER_SEC);
 }
 int SFT(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 {
@@ -313,7 +318,7 @@ int FFTver3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 
 	// input : x = x_r + i * x_i
 	// output : y = y_r + i * y_i
-	int n;
+	int n,k;
 	for(n=0;n<N;++n)
 	{
 		y_r[n] = x_r[n];
@@ -343,7 +348,33 @@ int FFTver3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 		j = j + M ;
 		i = i + 1 ;
     }
-
+    n=1;
+    double u_r,u_i,w_r,w_i;
+	while(n < N)
+	{
+		u_r = cos(-2.0*M_PI/(2*n));
+		u_i = sin(-2.0*M_PI/(2*n));		
+		w_r = 1;
+		w_i = 0;
+		for(i=0;i<n;++i)
+		{	
+		    w_r = w_r * u_r - w_i * u_i;
+			w_i = w_r * u_i + w_i * u_r;  		
+			for(j=i;j<N;j=j+2*n)
+			{
+				k = j + n;
+				t_r = w_r*y_r[k]-w_i*y_i[k];
+				t_i = w_r*y_i[k]+w_i*y_r[k]; 
+				//jth jth + w^(-i)*kth
+				//k   jth - w^(-i)*kth
+				y_r[k] = y_r[k] - t_r;
+				y_i[k] = y_i[k] - t_r;
+				y_r[j] = y_r[j] + t_r;
+				y_i[j] = y_i[i] + t_i;
+		    } 
+		}
+		n = n * 2;
+    }
 	return 0;
 }
 
@@ -351,7 +382,7 @@ int Group(int N)
 {
 	// N = 8
 	// ((0,1) (2,3)   (4,5) (6,7))                 Big Group number = 1
-	// ((0,2) (4,6))   (1,3) (5,7))                Big Group number = 2
+	// ((0,2) (4,6))   ((1,3) (5,7))               Big Group number = 2
 	// ((0,4)) ((1,5)) ((2,6)) ((3,7))             Big Group number = 4
 	
     int n = 1, i, j;
@@ -360,7 +391,7 @@ int Group(int N)
 		printf("n=%d\n", n);
 		for(i=0;i<n;++i)
 		{
-			printf("%d:", i); 
+  			printf("%d:", i); 
 			// 0
 			// 0 1
 			// 0 1 2
@@ -369,11 +400,12 @@ int Group(int N)
 			{
 				//(0, )(2, )(4, )(6, )
 				//(0, (4,
-			     printf("(%d %d)\n",j,j+n);
+			    printf("(%d %d)\n",j,j+n);
 		    } 
 		}
 		n = n * 2;
     }
+  
 }
 
 
