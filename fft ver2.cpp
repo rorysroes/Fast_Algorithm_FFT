@@ -13,11 +13,12 @@ int Bit_Reserve_Integer(int N);
 
 int main()
 {
-	Bit_Reserve_Integer(8);
-	/*
 	int D[4];
+	//Bit_Reserve(D, 5, 4);
+	Bit_Reserve_Integer(125);
+	/*
 	Bit_Increase(D, 2, 4);
-	Bit_Reserve(D, 2, 4);
+	Bit_Reserve(D, 2, 4);                               // 2 進位 
 	*/
 	// y_k = sum(x_n * w^{-kn}, n=0..N-1)
 	// w = cos(2*pi/N)+isin(2*pi/N)
@@ -234,12 +235,51 @@ int Bit_Reserve_Integer(int N)
 {
 	
 	//      N = 8       
-	//      D[2] D[1] D[0] 
-	//x print 000  100  010  110  001  101 ...
-	//  print  0    4    2    6    1    5
-	
+	//         D[2] D[1] D[0] 
+	// x print 000  100  010  110  001  101 ...
+	//   print  0    4    2    6    1    5
+	// N = 27
+    //          0 9 18 3 12 ..... 
+	// N = 125
+	//          0 25  ....              	
 	int i=0, j=0, M ;
 	
+	while(i < N)
+	{
+		printf("%d <-> %d", i, j);
+
+	    M = N/5 ;    //check 25     
+
+	    while( j >=  4 * M & M > 0)
+	    {
+	    	j = j - 4 * M ;
+	        M = M / 5 ;  
+		}	
+		j = j + M ;
+		i = i + 1 ;
+	
+		system("pause");
+    }
+
+	/*3的版本 
+	while(i < N)
+	{
+		printf("%d <-> %d", i, j);
+
+	    M = N/3 ;    //check 9     
+
+	    while( j >= 2 * M & M > 0)
+	    {
+	    	j = j - 2*M ;
+	        M = M / 3 ;  
+		}	
+		j = j + M ;
+		i = i + 1 ;
+	
+		system("pause");
+    }
+    */
+	/*2的版本 
 	while(i< N)
 	{
 		printf("%d <-> %d", i, j);
@@ -261,6 +301,7 @@ int Bit_Reserve_Integer(int N)
 	
 		system("pause");
     }
+    */
     return 0;
 }
 
