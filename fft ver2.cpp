@@ -7,9 +7,14 @@ int FFT(double *x_r, double *x_i, double *y_r, double *y_i, int N);
 int Generate_N(int p, int q, int r);
 int Initial(double *x, double *y, int N);
 int Print_Complex_Vector(double *x, double *y, int N);
+int Bit_Increase(int *D,int b, int N);
+int Bit_Reserve(int *D, int b, int N);
 
 int main()
 {
+	int D[4];
+	Bit_Increase(D, 2, 4);
+	Bit_Reserve(D, 2, 4);
 	// y_k = sum(x_n * w^{-kn}, n=0..N-1)
 	// w = cos(2*pi/N)+isin(2*pi/N)
 	int k ,n ,N, p, q, r;
@@ -171,9 +176,55 @@ int Print_Complex_Vector(double *x, double *y, int N)
 		else printf("%d : %f %f i\n", n, x[n], y[n]);
 	}
 }
+int Bit_Increase(int *D, int b, int N)
+{
+	int i;
+	//      D[3] D[2] D[1] D[0] 
+	//print 0000 0001 0010 0011 0100 0101 ...
+	for(i=0;i<N;++i) D[i] = 0;
+	
+	while(D[N-1] < b)
+	{
+		for(i=N-1;i>=0;i--) printf("%d", D[i]);
+		printf("\n");
+		D[0] = D[0] + 1;
+		//check every bit , if D[i] = b => D[i] = 0 , D[i+1]+1       0002 => 0010
+	    i = 0;
+	    while(D[i]==b & i < N-1)
+	    {
+	    	D[i] = 0;
+	    	i = i + 1;
+	    	D[i] = D[i] + 1; 
+		}
+		system("pause");
+    }
+    return 0;
+}
 
-
-
+int Bit_Reserve(int *D, int b, int N)
+{
+	int i;
+	//      D[3] D[2] D[1] D[0] 
+	//print 0000 1000 0100 1100 0010 1010 ...
+	for(i=0;i<N;++i) D[i] = 0;
+	
+	while(D[0] < b)
+	{
+		for(i=N-1;i>=0;i--) printf("%d", D[i]);
+		printf("\n");
+		D[N-1] = D[N-1] + 1;
+		//check every bit , if D[i] = b => D[i] = 0 , D[i+1]+1       2000 => 0100
+	    i = N-1;
+	    while(D[i]==b & i > 0)
+	    {
+	    	D[i] = 0;
+	    	i = i - 1;
+	    	D[i] = D[i] + 1; 
+		}
+		system("pause");
+    }
+    return 0;
+}
 
 
 
