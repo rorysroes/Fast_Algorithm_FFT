@@ -24,14 +24,14 @@ int main()
 	x_i = (double * ) malloc(N*sizeof(double));
 	y_r = (double * ) malloc(N*sizeof(double));
 	y_i = (double * ) malloc(N*sizeof(double));
-	
+	/*
     Initial(x_r, x_i, N);
 	t1 = clock();
     SFT(x_r, x_i, y_r, y_i, N);
 	t2 = clock();
 	printf("%f secs\n",1.0*(t2 -t1)/CLOCKS_PER_SEC);
 	//Print_Complex_Vector(y_r,y_i, N);
-	
+	*/
     Initial(x_r, x_i, N);
 	if((N%2) == 0)
 	{
@@ -101,7 +101,6 @@ int FFT_radix_2(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 
 	even_r = (double *) malloc(N*sizeof(double));
 	even_i = (double *) malloc(N*sizeof(double));
-
 	odd_r = even_r + N/2; //(double *) malloc(N/2*sizeof(double)); 
 	odd_i = even_i + N/2; //(double *) malloc(N/2*sizeof(double));
 	even_FT_r = (double *) malloc(N*sizeof(double));
@@ -115,23 +114,23 @@ int FFT_radix_2(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 		odd_r[n] = x_r[2*n+1];
 		odd_i[n] = x_i[2*n+1];
 	}
-	printf("n = %d",n);
-	
 	//FFT_radix_2(even_r,even_i,even_FT_r,even_FT_i,N/2);
 	//FFT_radix_2(odd_r,odd_i,odd_FT_r,odd_FT_i,N/2);
 	if((n%2) == 0){
 		FFT_radix_2(even_r,even_i,even_FT_r,even_FT_i,N/2);
-		FFT_radix_2(even_r,even_i,even_FT_r,even_FT_i,N/2);
+		FFT_radix_2(odd_r,odd_i,odd_FT_r,odd_FT_i,N/2);
 	}
 	else if((n%3) == 0){
 		FFT_radix_3(even_r,even_i,even_FT_r,even_FT_i,N/2);
-	    FFT_radix_3(even_r,even_i,even_FT_r,even_FT_i,N/2);
+	    FFT_radix_3(odd_r,odd_i,odd_FT_r,odd_FT_i,N/2);
 	}
 	else{
 		FFT_radix_5(even_r,even_i,even_FT_r,even_FT_i,N/2);
-		FFT_radix_5(even_r,even_i,even_FT_r,even_FT_i,N/2);
+		FFT_radix_5(odd_r,odd_i,odd_FT_r,odd_FT_i,N/2);
 	}
 	
+    //w_r = cos(-2.0*M_PI/(2*N));
+	//w_i = sin(-2.0*M_PI/(2*N));
 	for(k=0;k<N/2;++k)
 	{
 		// w^{-k}
@@ -139,7 +138,7 @@ int FFT_radix_2(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 		w_i = sin(-k*2*M_PI/N);
 		//printf("N=%d, w_r = %f, w_i = %f\n",N, w_r, w_i);
 		y_r[k] = even_FT_r[k] + (w_r*odd_FT_r[k] - w_i*odd_FT_i[k]);
-		y_i[k] = even_FT_i[k] + (w_r*odd_FT_i[k] + w_i*odd_FT_r[k]);
+		y_i[k] = even_FT_i[k] + (w_r*odd_FT_i[k+N/2] + w_i*odd_FT_r[k]);
 		y_r[k+N/2] = even_FT_r[k] - (w_r*odd_FT_r[k] - w_i*odd_FT_i[k]);
 		y_i[k+N/2] = even_FT_i[k] - (w_r*odd_FT_i[k] + w_i*odd_FT_r[k]); 
 	    
@@ -205,7 +204,7 @@ int FFT_radix_3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 	  FFT_radix_2(three_1_r,three_1_i,three_1_FT_r,three_1_FT_i,N/3);
 	  FFT_radix_2(three_2_r,three_2_i,three_2_FT_r,three_2_FT_i,N/3);
 	  FFT_radix_2(three_3_r,three_3_i,three_3_FT_r,three_3_FT_i,N/3);
-	  
+    }
 	for(k=0;k<N/3;++k)
 	{
 		//wN^{-3kn} = cos(-n*3*pi/N)+ i sin(-kn*3*pi/N)
@@ -252,6 +251,7 @@ int FFT_radix_3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 
 	return 0;
 }
+
 int FFT_radix_5(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 {
 	if(N==1)
