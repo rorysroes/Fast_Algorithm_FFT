@@ -40,7 +40,7 @@ int main()
 		t2 = clock();
 		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
 		system("pause");
-		//Print_Complex_Vector(y_r, y_i, N);	
+		Print_Complex_Vector(y_r, y_i, N);	
 	}
 	else if((N%3) == 0){
 		t1 = clock();
@@ -48,7 +48,7 @@ int main()
 		t2 = clock();
 		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
 		system("pause");
-		//Print_Complex_Vector(y_r, y_i, N);	
+		Print_Complex_Vector(y_r, y_i, N);	
 	}
 	else if((N%5) == 0){
 		t1 = clock();
@@ -56,7 +56,7 @@ int main()
 		t2 = clock();
 		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
 		system("pause");
-		//Print_Complex_Vector(y_r, y_i, N);	
+		Print_Complex_Vector(y_r, y_i, N);	
 	}
 	else {
 		printf("Error");
@@ -352,7 +352,7 @@ int FFT_radix_5(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 		y_i[k] += w_r*five_1_FTi[k+2*N/5] + w_i*five_1_FTr[k+2*N/5];
 		w_r = cos(-k*6*M_PI/N);
 		w_i = sin(-k*6*M_PI/N);
-		y_r[k] += w_r*five_1_FTr[k+3*N/5] - w_i*five_1_FTr[k+3*N/5];
+		y_r[k] += w_r*five_1_FTr[k+3*N/5] - w_i*five_1_FTi[k+3*N/5];
 		y_i[k] += w_r*five_1_FTi[k+3*N/5] + w_i*five_1_FTr[k+3*N/5];
 		w_r = cos(-k*8*M_PI/N);
 		w_i = sin(-k*8*M_PI/N);
